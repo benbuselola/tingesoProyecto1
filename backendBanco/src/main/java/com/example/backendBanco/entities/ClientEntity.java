@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "client")
 @Data
@@ -25,5 +27,6 @@ public class ClientEntity {
         private String phone;
         private String address;
         private String password;
+
 }
 

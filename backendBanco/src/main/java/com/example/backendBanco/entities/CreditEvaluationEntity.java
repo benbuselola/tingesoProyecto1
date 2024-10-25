@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 @Entity
-@Table(name = "creditEvaluation")
+@Table(name = "credit_evaluation")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,4 +20,5 @@ public class CreditEvaluationEntity {
     private int years;
     private double interestRate;
     private String status;
+    private String rut;
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     public ClientEntity findByRut(String rut);
     public ClientEntity findByEmail (String email);
@@ -18,4 +19,5 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     ClientEntity findByRutNativeQuery(@Param("rut") String rut);
     @Query(value = "SELECT * FROM clients WHERE clients.email = :email", nativeQuery = true)
     ClientEntity findByEmailNativeQuery(@Param("email") String email);
+    
 }
