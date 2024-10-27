@@ -46,13 +46,19 @@ public class CreditController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/simulate")
-    public ResponseEntity<Double> simulateCredit(
-            @RequestParam double amount,
-            @RequestParam int years,
-            @RequestParam double interestRate
-    ) {
-        double monthlyPayment = creditService.calculateCredit(amount, years, interestRate);
-        return ResponseEntity.ok(monthlyPayment);
+    public ResponseEntity<?> simulateCredit(@RequestParam double amount,
+                                            @RequestParam int years,
+                                            @RequestParam double interestRate,
+                                            @RequestParam String type) {
+        try {
+            double monthlyPayment = creditService.calculateCredit(amount, years, interestRate, type);
+            return ResponseEntity.ok(monthlyPayment);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        }
     }
+
 
 }

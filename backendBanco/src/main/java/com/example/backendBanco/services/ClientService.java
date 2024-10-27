@@ -22,6 +22,9 @@ public class ClientService {
         if (clientRepository.findByRut(client.getRut()) != null) {
             return null;
         }
+        if (client.getAge() < 18) {
+            return null;
+        }
         return clientRepository.save(client);
     }
 
@@ -37,6 +40,7 @@ public class ClientService {
         if (clientRepository.findById(client.getId()).isEmpty()) {
             return null;
         }
+        clientRepository.deleteById(client.getId());
         return clientRepository.save(client);
     }
 

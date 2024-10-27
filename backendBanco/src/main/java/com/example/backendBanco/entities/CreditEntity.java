@@ -19,5 +19,6 @@ public class CreditEntity {
     private int years;
     private double interestRate;
     private double monthlyPayment;
+    private String type;
 
 }
