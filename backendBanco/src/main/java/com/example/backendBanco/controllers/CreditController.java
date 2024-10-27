@@ -45,14 +45,13 @@ public class CreditController {
         var isDeleted = creditService.deleteCredit(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("/simulate")
-    public ResponseEntity<Double> simulateCredit(@RequestBody CreditEntity creditRequest) {
-        double monthlyPayment = creditService.calculateCredit(
-                creditRequest.getAmount(),
-                creditRequest.getYears(),
-                creditRequest.getInterestRate()
-        );
-
+    @GetMapping("/simulate")
+    public ResponseEntity<Double> simulateCredit(
+            @RequestParam double amount,
+            @RequestParam int years,
+            @RequestParam double interestRate
+    ) {
+        double monthlyPayment = creditService.calculateCredit(amount, years, interestRate);
         return ResponseEntity.ok(monthlyPayment);
     }
 

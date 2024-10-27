@@ -51,6 +51,6 @@ public class CreditService {
         double interest_monthly = (interestRate /100) / 12;
         int number_of_payments = years * 12;
         double monthlyPayment = amount *((interest_monthly * Math.pow(1 + interest_monthly, number_of_payments)) / (Math.pow(1 + interest_monthly, number_of_payments) - 1));
-        return monthlyPayment;
+        return Math.round(monthlyPayment);
     }
 }

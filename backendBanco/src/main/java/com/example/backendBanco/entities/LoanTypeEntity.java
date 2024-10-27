@@ -21,4 +21,7 @@ public class LoanTypeEntity {
     private int years;
     private double interestRate;
     private double financeRate;
+    private String rutClient;
+    private double monthlyPayment = 0;
+    private double totalCost = 0;
 }

@@ -17,10 +17,11 @@ public class LoanTypeController {
     LoanTypeService loanTypeService;
 
     @GetMapping("/")
-    public ResponseEntity<List<LoanTypeEntity>> listLoanTypes() {
+    public ResponseEntity<List<LoanTypeEntity>> getAll() {
         List<LoanTypeEntity> loanTypes = loanTypeService.getLoanTypes();
         return ResponseEntity.ok(loanTypes);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<LoanTypeEntity> getLoanTypeById(@PathVariable Long id) {
         LoanTypeEntity loanType = loanTypeService.getLoanTypeById(id);
@@ -40,6 +41,35 @@ public class LoanTypeController {
     public ResponseEntity<Boolean> deleteLoanTypeById(@PathVariable Long id) throws Exception {
         var isDeleted = loanTypeService.deleteLoanType(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/client/{rut}")
+    public ResponseEntity<Void> deleteLoanTypeByRut(@PathVariable String rut) {
+        try {
+            loanTypeService.deleteLoanTypeByRut(rut);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    @GetMapping
+    public ResponseEntity<List<LoanTypeEntity>> getLoanByRut(@RequestParam String rut) {
+        List<LoanTypeEntity> loan = loanTypeService.getLoanByRut(rut);
+        if (loan.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(loan);
+    }
+    @PostMapping("/request")
+    public ResponseEntity<LoanTypeEntity> requestLoan(
+            @RequestParam String rutClient,
+            @RequestParam String type,
+            @RequestParam int years,
+            @RequestParam double interestRate,
+            @RequestParam double propertyValue
+    ) {
+        LoanTypeEntity loanRequest = loanTypeService.requestLoan(rutClient, type, years, interestRate, propertyValue);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanRequest);
     }
 
 }
