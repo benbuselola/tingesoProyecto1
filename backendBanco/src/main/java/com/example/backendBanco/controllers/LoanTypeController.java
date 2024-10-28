@@ -52,7 +52,7 @@ public class LoanTypeController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    @GetMapping
+    @GetMapping("/client")
     public ResponseEntity<List<LoanTypeEntity>> getLoanByRut(@RequestParam String rut) {
         List<LoanTypeEntity> loan = loanTypeService.getLoanByRut(rut);
         if (loan.isEmpty()) {
