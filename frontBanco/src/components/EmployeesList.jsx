@@ -88,6 +88,7 @@ const ClientList = () => {
             <TableCell align="left" sx={{ fontWeight: "bold" }}>Email</TableCell>
             <TableCell align="left" sx={{ fontWeight: "bold" }}>Teléfono</TableCell>
             <TableCell align="left" sx={{ fontWeight: "bold" }}>Dirección</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Archivos</TableCell>
             <TableCell align="left" sx={{ fontWeight: "bold" }}>Operaciones</TableCell>
           </TableRow>
         </TableHead>
@@ -104,6 +105,9 @@ const ClientList = () => {
               <TableCell align="left">{client.email}</TableCell>
               <TableCell align="left">{client.phone}</TableCell>
               <TableCell align="left">{client.address}</TableCell>
+              <TableCell>
+                <Button></Button>
+              </TableCell>
               <TableCell>
                 <Button
                   variant="contained"

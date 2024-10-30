@@ -1,36 +1,31 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import extraHoursService from "../services/extrahours.service";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import MoreTimeIcon from "@mui/icons-material/MoreTime";
+import loantypeService from "../services/loantype.service";
 
-const ExtraHoursList = () => {
-  const [extraHours, setExtraHours] = useState([]);
-
+const LoanTypeList = () => {
+  const [loantypes, setLoanTypes] = useState([]);
   const navigate = useNavigate();
 
   const init = () => {
-    extraHoursService
+    loantypeService
       .getAll()
       .then((response) => {
-        console.log("Mostrando listado de todos las Hrs Extra.", response.data);
-        setExtraHours(response.data);
+        console.log("Tipos de préstamos obtenidos", response.data);
+        setLoanTypes(response.data);
       })
       .catch((error) => {
-        console.log(
-          "Se ha producido un error al intentar mostrar listado de todas las Hrs Extra.",
-          error
-        );
+        console.log("Error al intentar mostrar los tipos de préstamos", error);
       });
   };
 
@@ -39,28 +34,21 @@ const ExtraHoursList = () => {
   }, []);
 
   const handleDelete = (id) => {
-    console.log("Printing id", id);
-    const confirmDelete = window.confirm(
-      "¿Esta seguro que desea borrar esta Hora Extra?"
-    );
+    const confirmDelete = window.confirm("¿Está seguro que desea borrar este tipo de préstamo?");
     if (confirmDelete) {
-      extraHoursService
-        .remove(id)
+      loantypeService
+        .deleteLoanTypeById(id)
         .then((response) => {
-          console.log("Hora Extra ha sido eliminada.", response.data);
+          console.log("Tipo de préstamo eliminado", response.data);
           init();
         })
         .catch((error) => {
-          console.log(
-            "Se ha producido un error al intentar eliminar la Hora Extra",
-            error
-          );
+          console.log("Error al intentar eliminar el tipo de préstamo", error);
         });
     }
   };
 
   const handleEdit = (id) => {
-    console.log("Printing id", id);
     navigate(`/extraHours/edit/${id}`);
   };
 
@@ -76,50 +64,52 @@ const ExtraHoursList = () => {
           color="primary"
           startIcon={<MoreTimeIcon />}
         >
-          Ingresar Horas Extra
+          Ingresar Nuevo Tipo de Préstamo
         </Button>
       </Link>
       <br /> <br />
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="left" sx={{ fontWeight: "bold" }}>
-              Rut
-            </TableCell>
-            <TableCell align="left" sx={{ fontWeight: "bold" }}>
-              Fecha
-            </TableCell>
-            <TableCell align="right" sx={{ fontWeight: "bold" }}>
-              Nro. HrsExtra
-            </TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>ID</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Tipo de prestamo</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Rut del cliente</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Interés (%)</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Financiamiento(%)</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Pago mensual</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Pago Total</TableCell>
+            <TableCell align="left" sx={{ fontWeight: "bold" }}>Plazo</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {extraHours.map((extraHour) => (
-            <TableRow
-              key={extraHour.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{extraHour.rut}</TableCell>
-              <TableCell align="left">{new Date(extraHour.date).toISOString().split('T')[0]}</TableCell>
-              <TableCell align="right">{extraHour.numExtraHours}</TableCell>
-              <TableCell>
+          {loantypes.map((loanType) => (
+            <TableRow key={loanType.id}>
+              <TableCell align="left">{loanType.id}</TableCell>
+              <TableCell align="left">{loanType.type}</TableCell>
+              <TableCell align="left">{loanType.rutClient}</TableCell>
+              <TableCell align="left">{loanType.interestRate}%</TableCell>
+              <TableCell align="left">{loanType.financeRate}%</TableCell>
+              <TableCell align="left">${loanType.monthlyPayment}</TableCell>
+              <TableCell align="left">${loanType.totalCost}</TableCell>
+
+              <TableCell align="left">{loanType.years} años</TableCell>
+              <TableCell align="center">
                 <Button
                   variant="contained"
                   color="info"
                   size="small"
-                  onClick={() => handleEdit(extraHour.id)}
+                  onClick={() => handleEdit(loanType.id)}
                   style={{ marginLeft: "0.5rem" }}
                   startIcon={<EditIcon />}
                 >
                   Editar
                 </Button>
-
                 <Button
                   variant="contained"
                   color="error"
                   size="small"
-                  onClick={() => handleDelete(extraHour.id)}
+                  onClick={() => handleDelete(loanType.id)}
                   style={{ marginLeft: "0.5rem" }}
                   startIcon={<DeleteIcon />}
                 >
@@ -134,4 +124,4 @@ const ExtraHoursList = () => {
   );
 };
 
-export default ExtraHoursList;
+export default LoanTypeList;

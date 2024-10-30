@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import creditService from "../services/credit.service"; // Asegúrate de que el nombre del archivo es correcto
+import creditService from "../services/credit.service"; 
 import CalculateIcon from "@mui/icons-material/Calculate";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";

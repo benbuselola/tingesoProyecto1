@@ -22,11 +22,9 @@ const AddEditClient = () => {
 
   useEffect(() => {
     if (id) {
-      clientService.getClient(id).then((response) => {
-        setClient(response.data);
-      }).catch((error) => {
-        console.error("Error al cargar los datos del cliente", error);
-      });
+      clientService.getClient(id)
+        .then((response) => setClient(response.data))
+        .catch((error) => console.error("Error al cargar los datos del cliente", error));
     }
   }, [id]);
 
@@ -37,27 +35,11 @@ const AddEditClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (id) {
-      clientService
-        .updateClient(client)
-        .then((response) => {
-          console.log("Cliente actualizado exitosamente", response.data);
-          navigate("/employee/list");
-        })
-        .catch((error) => {
-          console.log("Error al actualizar el cliente", error);
-        });
-    } else {
-      clientService
-        .saveClient(client)
-        .then((response) => {
-          console.log("Cliente añadido exitosamente", response.data);
-          navigate("/employee/list");
-        })
-        .catch((error) => {
-          console.log("Error al añadir el cliente", error);
-        });
-    }
+    const clientData = id ? clientService.updateClient(client) : clientService.saveClient(client);
+    
+    clientData
+      .then(() => navigate("/employee/list"))
+      .catch((error) => console.error("Error al guardar el cliente", error));
   };
 
   return (

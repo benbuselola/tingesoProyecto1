@@ -69,7 +69,7 @@ public class LoanTypeService {
                 return loanTypeRepository.findByRutClient(rut);
         }
 
-        public LoanTypeEntity requestLoan(String rutClient, String type, int years, double interestRate, double propertyValue) {
+        public LoanTypeEntity requestLoan(String rutClient, String type, int years, double interestRate, double propertyValue, double financeRate) {
                 ClientEntity client = clientRepository.findByRut(rutClient);
                 if (client == null) {
                         throw new IllegalArgumentException("El RUT del cliente no está registrado en la base de datos");
@@ -79,33 +79,39 @@ public class LoanTypeService {
                 loanType.setRutClient(rutClient);
                 loanType.setType(type);
 
-                double financeRate = 0;
+
                 int maxYears = 0;
                 double minInterestRate = 0;
                 double maxInterestRate = 0;
+                double maxFinanceRate = 0;
 
-                if (type.toLowerCase(Locale.ROOT).equals("primera vivienda")) {
-                        maxYears = 30;
-                        financeRate = 0.8;
-                        minInterestRate = 3.5;
-                        maxInterestRate = 5.0;
-                } else if (type.toLowerCase(Locale.ROOT).equals("segunda vivienda")) {
-                        maxYears = 20;
-                        financeRate = 0.7;
-                        minInterestRate = 4.0;
-                        maxInterestRate = 6.0;
-                } else if (type.toLowerCase(Locale.ROOT).equals("propiedad comercial")) {
-                        maxYears = 25;
-                        financeRate = 0.6;
-                        minInterestRate = 5.0;
-                        maxInterestRate = 7.0;
-                } else if (type.toLowerCase(Locale.ROOT).equals("remodelacion")) {
-                        maxYears = 15;
-                        financeRate = 0.5;
-                        minInterestRate = 4.5;
-                        maxInterestRate = 6.0;
-                } else {
-                        throw new IllegalArgumentException("Tipo de financiamiento no válido");
+                switch (type.toLowerCase(Locale.ROOT)) {
+                        case "primera vivienda":
+                                maxYears = 30;
+                                maxFinanceRate = 80;
+                                minInterestRate = 3.5;
+                                maxInterestRate = 5.0;
+                                break;
+                        case "segunda vivienda":
+                                maxYears = 20;
+                                maxFinanceRate = 70;
+                                minInterestRate = 4.0;
+                                maxInterestRate = 6.0;
+                                break;
+                        case "propiedad comercial":
+                                maxYears = 25;
+                                maxFinanceRate = 60;
+                                minInterestRate = 5.0;
+                                maxInterestRate = 7.0;
+                                break;
+                        case "remodelacion":
+                                maxYears = 15;
+                                maxFinanceRate = 50;
+                                minInterestRate = 4.5;
+                                maxInterestRate = 6.0;
+                                break;
+                        default:
+                                throw new IllegalArgumentException("Tipo de financiamiento no válido");
                 }
 
                 if (years > maxYears) {
@@ -116,16 +122,17 @@ public class LoanTypeService {
                         throw new IllegalArgumentException("La tasa de interés no está dentro del rango permitido para el tipo de financiamiento " + type);
                 }
 
-                double financedAmount = propertyValue * financeRate;
+                if (financeRate > maxFinanceRate) {
+                        throw new IllegalArgumentException("La tasa de financiamiento supera el máximo permitido para el tipo de financiamiento " + type);
+                }
 
+                double financedAmount = propertyValue * (financeRate/100);
                 double interestMonthly = (interestRate / 100) / 12;
                 int numberOfPayments = years * 12;
-                double monthlyPayment = financedAmount *((interestMonthly * Math.pow(1 + interestMonthly, numberOfPayments)) / (Math.pow(1 + interestMonthly, numberOfPayments) - 1));
+                double monthlyPayment = financedAmount * ((interestMonthly * Math.pow(1 + interestMonthly, numberOfPayments)) / (Math.pow(1 + interestMonthly, numberOfPayments) - 1));
 
-                double insurance= financedAmount * 0.0003;
+                double insurance = financedAmount * 0.0003;
                 double fireInsurance = 20000;
-
-
                 double totalMonthlyPayment = monthlyPayment + fireInsurance + insurance;
 
                 double totalCost = (totalMonthlyPayment * numberOfPayments) + (financedAmount * 0.01);
@@ -134,7 +141,9 @@ public class LoanTypeService {
                 loanType.setFinanceRate(financeRate);
                 loanType.setMonthlyPayment(Math.round(totalMonthlyPayment));
                 loanType.setTotalCost(Math.round(totalCost));
+
                 return loanTypeRepository.save(loanType);
         }
+
 
 }

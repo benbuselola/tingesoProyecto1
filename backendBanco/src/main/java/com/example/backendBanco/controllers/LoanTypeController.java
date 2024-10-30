@@ -66,9 +66,10 @@ public class LoanTypeController {
             @RequestParam String type,
             @RequestParam int years,
             @RequestParam double interestRate,
-            @RequestParam double propertyValue
+            @RequestParam double propertyValue,
+            @RequestParam double financeRate
     ) {
-        LoanTypeEntity loanRequest = loanTypeService.requestLoan(rutClient, type, years, interestRate, propertyValue);
+        LoanTypeEntity loanRequest = loanTypeService.requestLoan(rutClient, type, years, interestRate, propertyValue,financeRate);
         return ResponseEntity.status(HttpStatus.CREATED).body(loanRequest);
     }
 
