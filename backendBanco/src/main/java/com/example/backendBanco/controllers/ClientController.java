@@ -45,13 +45,4 @@ public class ClientController {
         var isDeleted = clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
-    @PostMapping("/login")
-    public ResponseEntity<String> loginClient(@RequestBody ClientEntity client){
-        boolean isLogged = clientService.loginClient(client.getEmail(), client.getPassword());
-        if (isLogged) {
-            return ResponseEntity.ok("Login exitoso");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
-        }
-    }
 }

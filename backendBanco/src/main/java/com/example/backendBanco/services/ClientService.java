@@ -53,11 +53,4 @@ public class ClientService {
         }
 
     }
-    public boolean loginClient(String email, String password){
-        ClientEntity client = clientRepository.findByEmail(email);
-        if (client != null && client.getPassword().equals(password)) {
-            return true;
-        }
-        return false;
-    }
 }
