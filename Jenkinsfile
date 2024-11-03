@@ -31,7 +31,7 @@ pipeline {
                     script {
                         withDockerRegistry(credentialsId: 'docker-credentials') {
                             bat "docker build -t bbustamante13/backend-imagen ."
-                            bat "docker push bbustamante/backend-imagen"
+                            bat "docker push bbustamante13/backend-imagen"
                         }
                     }
                 }
