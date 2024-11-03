@@ -29,7 +29,7 @@ pipeline {
             steps {
                 dir("backendBanco") {
                     script {
-                        sh "docker context use default"
+                        bat "docker context use default"
                         withDockerRegistry(credentialsId: 'docker-credentials') {
                             bat "docker build -t bbustamante13/backend-imagen ."
                             bat "docker push bbustamante13/backend-imagen"
