@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import SaveIcon from "@mui/icons-material/Save";
-import Snackbar from "@mui/material/Snackbar"; // Para mostrar mensajes de error
+import Snackbar from "@mui/material/Snackbar"; 
 
 const AddEditExtraHours = () => {
   const [loanType, setLoanType] = useState({
@@ -21,8 +21,8 @@ const AddEditExtraHours = () => {
     totalCost: 0,
   });
 
-  const [errorMessage, setErrorMessage] = useState(""); // Estado para el mensaje de error
-  const [openSnackbar, setOpenSnackbar] = useState(false); // Estado para controlar la Snackbar
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [openSnackbar, setOpenSnackbar] = useState(false); 
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -88,8 +88,8 @@ const AddEditExtraHours = () => {
           navigate("/extraHours/list");
         })
         .catch((error) => {
-          setErrorMessage(error.response.data); // Captura el mensaje de error del backend
-          setOpenSnackbar(true); // Muestra la Snackbar
+          setErrorMessage(error.response.data); 
+          setOpenSnackbar(true); 
           console.error("Error al actualizar el tipo de préstamo", error);
         });
     } else {
@@ -100,8 +100,8 @@ const AddEditExtraHours = () => {
           navigate("/extraHours/list");
         })
         .catch((error) => {
-          setErrorMessage(error.response.data); // Captura el mensaje de error del backend
-          setOpenSnackbar(true); // Muestra la Snackbar
+          setErrorMessage(error.response.data); 
+          setOpenSnackbar(true); 
           console.error("Error al añadir el tipo de préstamo", error);
         });
     }

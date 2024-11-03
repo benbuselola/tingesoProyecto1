@@ -1,4 +1,4 @@
-package com.example.backendBanco.services;
+package services;
 
 import com.example.backendBanco.entities.CreditEntity;
 import com.example.backendBanco.entities.CreditEvaluationEntity;
@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Optional;
-
 public class CreditServiceTest {
     @Mock
     private CreditRepository creditRepository;

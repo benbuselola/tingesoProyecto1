@@ -1,4 +1,4 @@
-package com.example.backendBanco.services;
+package services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -7,16 +7,17 @@ import com.example.backendBanco.entities.LoanTypeEntity;
 import com.example.backendBanco.repositories.LoanTypeRepository;
 import com.example.backendBanco.entities.ClientEntity;
 import com.example.backendBanco.repositories.ClientRepository;
+import com.example.backendBanco.services.LoanTypeService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
-
 public class LoanTypeTest {
 
     @Mock
