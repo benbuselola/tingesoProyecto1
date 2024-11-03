@@ -1,19 +1,21 @@
 pipeline {
     agent any
-
+    tools {
+        maven "maven"
+    }
     stages {
         stage('Build JAR File') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/benbuselola/tingesoProyecto1']])
                 dir("backendBanco") {
-                    bat "maven clean install"  
+                    bat "mvn clean install"  
                 }
             }
         }
         stage('Test') {
             steps {
                 dir("backendBanco") {
-                    bat "maven test"  
+                    bat "mvn test"  
                 }
             }
         }
