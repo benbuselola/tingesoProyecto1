@@ -3,6 +3,12 @@ pipeline {
     tools {
         maven "maven"
     }
+    environment {
+        DB_USERNAME = 'postgres'
+        DB_PORT = '5432'
+        DB_HOST = 'localhost'
+        DB_PASSWORD = '13101310'
+    }
     stages {
         stage('Build JAR File') {
             steps {
