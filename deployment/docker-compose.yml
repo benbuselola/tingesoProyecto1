@@ -5,7 +5,7 @@ services:
     container_name: gestion-banco-nginx-backend-container
     restart: always
     ports:
-      - "8090:8090"
+      - 80:80
     volumes:
       - ./backend.conf:/etc/nginx/nginx.conf
     networks:
@@ -19,7 +19,7 @@ services:
     container_name: gestion-banco-nginx-frontend-container
     restart: always
     ports:
-      - "8070:80"
+      - 8070:8070
     volumes:
       - ./frontend.conf:/etc/nginx/nginx.conf
     networks:
@@ -36,6 +36,7 @@ services:
         condition: on-failure
     volumes:
       - gestion-banco-postgres-volume:/var/lib/postgresql/data
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - gestion-banco-backend-network
     environment:
@@ -43,12 +44,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 13101310
     ports:
-      - "5435:5432"
+      - 5435:5432
   spring1:
     container_name: gestion-banco-backend-container-1
-    image: bbustamante13/spring-image
+    image: bbustamante13/backend-imagen
     ports:
-      - "8091:8090"
+      - 8091:8090
     environment:
       DB_HOST: gestion-banco-postgres-container
       DB_PORT: 5432
@@ -63,9 +64,9 @@ services:
       - postgres
   spring2:
     container_name: gestion-banco-backend-container-2
-    image: bbustamante13/spring-image
+    image: bbustamante13/backend-imagen
     ports:
-      - "8092:8090"
+      - 8092:8090
     environment:
       DB_HOST: gestion-banco-postgres-container
       DB_PORT: 5432
@@ -80,9 +81,9 @@ services:
       - postgres
   spring3:
     container_name: gestion-banco-backend-container-3
-    image: bbustamante13/spring-image
+    image: bbustamante13/backend-imagen
     ports:
-      - "8093:8090"
+      - 8093:8090
     environment:
       DB_HOST: gestion-banco-postgres-container
       DB_PORT: 5432
@@ -97,9 +98,9 @@ services:
       - postgres
   react1:
     container_name: gestion-banco-frontend-container-1
-    image: bbustamante13/frontend-sinst
+    image: bbustamante13/frontend-imagen
     ports:
-      - "3001:3000"
+      - 3001:3000
     networks:
       - gestion-banco-frontend-network
     deploy:
@@ -107,9 +108,9 @@ services:
         condition: on-failure
   react2:
     container_name: gestion-banco-frontend-container-2
-    image: bbustamante13/frontend-sinst
+    image: bbustamante13/frontend-imagen
     ports:
-      - "3002:3000"
+      - 3002:3000
     networks:
       - gestion-banco-frontend-network
     deploy:
@@ -117,9 +118,9 @@ services:
         condition: on-failure
   react3:
     container_name: gestion-banco-frontend-container-3
-    image: bbustamante13/frontend-sinst
+    image: bbustamante13/frontend-imagen
     ports:
-      - "3003:3000"
+      - 3003:3000
     networks:
       - gestion-banco-frontend-network
     deploy:
