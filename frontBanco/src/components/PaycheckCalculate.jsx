@@ -101,7 +101,7 @@ const CreditCalculate = () => {
           style={{ marginLeft: "0.5rem" }}
           startIcon={<CalculateIcon />}
         >
-          Calcular Cuotas
+          Simular credito (Chile)
         </Button>
       </FormControl>
 
